@@ -1,17 +1,19 @@
-# 🏴‍☠️ Treasure Hunt
+# 🏴‍☠️ Treasure Hunt Game
 
-A fun, logic-based adventure game where your choices determine your fate!
+A simple, logic-driven adventure game.
 
-## 🌟 Overview
-This is a project I’m currently building to practice logic and game flow. It’s a work in progress, and I’m excited to keep improving it!
+## 🕹️ Current Status
+The game is currently in its **functional phase**. The core logic and gameplay paths are fully working, providing a solid foundation for the next steps!
 
-## 🎨 Upcoming Features
-I have big plans to make this project look "wow" soon! Some things I’m working on:
-*   **New Graphics:** Adding cool background designs and themes.
-*   **Cartoon Characters:** Introducing animated characters to make the game more fun.
-*   **Better UI:** Improving the overall look and feel of the user interface.
+## 🛠️ Work In Progress
+I am currently working on a major visual update. My next steps include:
+- **Character Design:** Adding fun cartoon characters.
+- **Improved UI:** Moving from basic text to a more visual experience.
+- **Enhanced Themes:** Polishing the overall look and feel.
 
-## 🚀 How to Run
-1. Clone the repo:
-   ```bash
-   git clone [https://github.com/ShikhaChauhan20/Treasure_Hunt_Fahhhhh.git](https://github.com/ShikhaChauhan20/Treasure_Hunt_Fahhhhh.git)
+## 🚀 Quick Start
+1. Clone the repository.
+2. Run the main script to start your adventure!
+
+---
+*Stay tuned for the visual updates!*
