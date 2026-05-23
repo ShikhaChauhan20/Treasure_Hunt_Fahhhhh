@@ -6,14 +6,14 @@ A dynamic, web-based arcade simulation that brings core Data Structures and Algo
 
 ---
 
-## ✨ Project Evolution: From Terminal to Web Canvas
+## Project Evolution: From Terminal to Web Canvas
 Originally assigned as a minor semester project to design a simple logic-driven adventure game, this project was upgraded post-exams to bridge core backend computer science algorithms with a responsive, smooth frontend UI. 
 
 Instead of reading static console logs, users can visually track how data structures navigate paths and optimize resources in real time.
 
 ---
 
-## 🧠 Core Algorithmic Breakdown
+## Core Algorithmic Breakdown
 
 The entire simulation relies on two foundational computer science concepts executing under the hood:
 
@@ -27,7 +27,7 @@ The entire simulation relies on two foundational computer science concepts execu
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Logic & Architecture:** Java (Core logic framework developed during the academic phase)
 * **Frontend Canvas:** HTML5, CSS3 (Custom Neon Arcade Theme), Vanilla JavaScript (Dynamic path rendering and character sprite animations)
@@ -35,7 +35,7 @@ The entire simulation relies on two foundational computer science concepts execu
 
 ---
 
-## 🎮 Quick Start & Local Execution
+## Quick Start & Local Execution
 
 Since this project has been fully migrated to a web-native architecture, you don't need any complex IDE setups to run it locally.
 
