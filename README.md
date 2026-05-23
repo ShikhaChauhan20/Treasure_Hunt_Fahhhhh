@@ -1,4 +1,4 @@
-# 🏴‍☠️ Disney Illusion Island: The Grand Algorithmic Race
+# 🏴‍☠️ Treasure_Hunt
 
 A dynamic, web-based arcade simulation that brings core Data Structures and Algorithms (DSA) to life. What started as a terminal-based college logic design assignment has been completely overhauled into an interactive visual experience featuring Minnie, Donald, and Daisy racing across a custom neon-themed grid.
 
