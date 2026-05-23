@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disney Illusion Island: Grand Finale Race</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #111827;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+
+        h1 {
+            font-family: 'Impact', sans-serif;
+            letter-spacing: 2px;
+            color: #f59e0b;
+            margin: 5px 0;
+            text-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .game-container {
+            display: flex;
+            gap: 20px;
+            background: #1f2937;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            border: 2px solid #374151;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .scoreboard {
+            background: #111827;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #4b5563;
+        }
+
+        .score-title {
+            font-weight: bold;
+            color: #10b981;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .player-row {
+            margin: 12px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        #startBtn {
+            padding: 15px;
+            font-size: 20px;
+            font-family: 'Impact', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border: 2px solid #f87171;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        #startBtn:hover {
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        #gameCanvas {
+            background-color: #87ceeb; 
+            border-radius: 12px;
+        }
+
+        /* 🏆 PREMIUM WINNER POPUP MODAL SCREEN */
+        #winnerModal {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #1e1b4b, #311042);
+            border: 4px solid #f59e0b;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.6);
+            z-index: 100;
+            width: 400px;
+            animation: popupBlow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popupBlow {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .winner-title {
+            font-family: 'Impact', sans-serif;
+            font-size: 32px;
+            color: #f59e0b;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .winner-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 15px 0;
+        }
+
+        .close-btn {
+            background: #f59e0b;
+            color: black;
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .close-btn:hover { background: #fbbf24; }
+    </style>
+</head>
+<body>
+
+    <h1>🏴‍☠️ DISNEY ILLUSION ISLAND: THE GRAND FINALE</h1>
+    
+    <div class="game-container">
+        <div id="winnerModal">
+            <div class="winner-title">👑 GRAND WINNER 👑</div>
+            <div style="font-size: 50px;">🏆</div>
+            <div class="winner-name" id="winnerLabel">Evaluating...</div>
+            <div style="color: #a7f3d0; font-size: 14px;" id="winnerReason">Looted Value...</div>
+            <button class="close-btn" onclick="closeModal()">PLAY AGAIN 🔄</button>
+        </div>
+
+        <canvas id="gameCanvas" width="900" height="600"></canvas>
+        
+        <div class="sidebar">
+            <div class="scoreboard">
+                <div class="score-title">🏆 Race Status Board</div>
+                <div class="player-row" id="minnieStats">Minnie 🎀: <span style="color:#f472b6">Ready at Dock</span></div>
+                <div class="player-row" id="donaldStats">Donald 🦆: <span style="color:#60a5fa">Ready at Dock</span></div>
+                <div class="player-row" id="daisyStats">Daisy 🌸: <span style="color:#c084fc">Ready at Dock</span></div>
+            </div>
+
+            <div class="scoreboard" style="margin-top: 10px; font-size: 13px; color: #9ca3af;">
+                <div class="score-title" style="color: #fbbf24;">💡 Final Objective</div>
+                All 3 heroes sprint to <b>Treasure Island 🏝️</b> using distinct routing paths. Winner is chosen based on <b>Fastest Dijkstra Time</b> + Max Knapsack Gold Value!
+            </div>
+
+            <button id="startBtn">LAUNCH GRAND RACE 🚀</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const winnerModal = document.getElementById('winnerModal');
+        const winnerLabel = document.getElementById('winnerLabel');
+        const winnerReason = document.getElementById('winnerReason');
+
+        // 🗺️ COMPLEX ROUTING GRAPH MAP ARCHITECTURE
+        let nodes = [
+            { id: 0, name: "East-Blue 🏁", x: 80, y: 300, type: 'start' },
+            { id: 1, name: "Coral Reef", x: 280, y: 140, type: 'normal' },
+            { id: 2, name: "Shipwreck Bay", x: 260, y: 460, type: 'normal' },
+            { id: 3, name: "Volcano Pass", x: 500, y: 220, type: 'normal' },
+            { id: 4, name: "Pirate Outpost", x: 480, y: 400, type: 'normal' },
+            { id: 5, name: "Treasure Island 🏝️", x: 780, y: 300, type: 'target', items: [{w:5, v:80}, {w:10, v:140}, {w:15, v:180}, {w:20, v:240}] }
+        ];
+
+        let edges = [
+            { source: nodes[0], dest: nodes[1], weight: 10 },
+            { source: nodes[0], dest: nodes[2], weight: 18 },
+            { source: nodes[1], dest: nodes[3], weight: 12 },
+            { source: nodes[1], dest: nodes[4], weight: 25 },
+            { source: nodes[2], dest: nodes[4], weight: 8 },
+            { source: nodes[3], dest: nodes[5], weight: 15 },
+            { source: nodes[4], dest: nodes[5], weight: 22 },
+            { source: nodes[3], dest: nodes[4], weight: 6 }
+        ];
+
+        // Image Pipeline Layers
+        const bgImg = new Image(); bgImg.src = 'mickeyisland.png';
+        const minnieImg = new Image(); minnieImg.src = 'minnie.png';
+        const donaldImg = new Image(); donaldImg.src = 'donald.png';
+        const daisyImg = new Image(); daisyImg.src = 'daisy.png';
+
+        let isRaceRunning = false;
+        
+        // 🎲 SHUFFLED & RANDOMIZED CORE VALUES (Initial setup)
+        let characters = {
+            minnie: { x: 80, y: 300, currentPath: [], targetIdx: 0, img: minnieImg, label: "Minnie 🎀", color: "#f472b6", bag: Math.floor(Math.random() * 15) + 15, speed: (Math.random() * 1.5) + 3.5, dom: 'minnieStats', finalScore: 0 },
+            donald: { x: 80, y: 300, currentPath: [], targetIdx: 0, img: donaldImg, label: "Donald 🦆", color: "#60a5fa", bag: Math.floor(Math.random() * 15) + 15, speed: (Math.random() * 1.5) + 3.5, dom: 'donaldStats', finalScore: 0 },
+            daisy:  { x: 80, y: 300, currentPath: [], targetIdx: 0, img: daisyImg,  label: "Daisy 🌸",  color: "#c084fc", bag: Math.floor(Math.random() * 15) + 15, speed: (Math.random() * 1.5) + 3.5, dom: 'daisyStats', finalScore: 0 }
+        };
+
+        // Dijkstra's Shortest Path Calculator
+        function dijkstra(start, target) {
+            let distances = {}, previous = {}, queue = [...nodes];
+            nodes.forEach(n => { distances[n.id] = Infinity; previous[n.id] = null; });
+            distances[start.id] = 0;
+
+            while (queue.length > 0) {
+                queue.sort((a, b) => distances[a.id] - distances[b.id]);
+                let curr = queue.shift();
+                if (curr === target) {
+                    let path = []; let cId = target.id;
+                    while (cId !== null) {
+                        path.push(nodes.find(n => n.id === cId));
+                        cId = previous[cId];
+                    }
+                    return path.reverse();
+                }
+                let neighbors = edges.filter(e => e.source.id === curr.id || e.dest.id === curr.id);
+                neighbors.forEach(e => {
+                    let nextNode = (e.source.id === curr.id) ? e.dest : e.source;
+                    let alt = distances[curr.id] + e.weight;
+                    if (alt < distances[nextNode.id]) {
+                        distances[nextNode.id] = alt; previous[nextNode.id] = curr.id;
+                    }
+                });
+            }
+            return [];
+        }
+
+        // 0/1 Knapsack Engine Function Matrix Optimization 
+        function solveKnapsack(capacity, items) {
+            let n = items.length;
+            let dp = Array(n + 1).fill().map(() => Array(capacity + 1).fill(0));
+            for (let i = 1; i <= n; i++) {
+                for (let w = 1; w <= capacity; w++) {
+                    if (items[i-1].w <= w) dp[i][w] = Math.max(items[i-1].v + dp[i-1][w - items[i-1].w], dp[i-1][w]);
+                    else dp[i][w] = dp[i-1][w];
+                }
+            }
+            return dp[n][capacity];
+        }
+
+        function gameLoop() {
+            if (isRaceRunning) {
+                let active = false;
+                for (let key in characters) {
+                    let p = characters[key];
+                    if (p.targetIdx < p.currentPath.length) {
+                        active = true;
+                        let target = p.currentPath[p.targetIdx];
+                        let dx = target.x - p.x, dy = target.y - p.y;
+                        let dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist > p.speed) {
+                            p.x += (dx/dist) * p.speed; p.y += (dy/dist) * p.speed;
+                        } else {
+                            p.x = target.x; p.y = target.y; p.targetIdx++;
+                            
+                            if (p.targetIdx === p.currentPath.length) {
+                                p.finalScore = solveKnapsack(p.bag, nodes[5].items);
+                                document.getElementById(p.dom).innerHTML = `${p.label}: <b style="color:#10b981">Finished! Looted: $${p.finalScore} Gold (Bag: ${p.bag}kg)</b>`;
+                            }
+                        }
+                    }
+                }
+                if (!active) {
+                    isRaceRunning = false;
+                    evaluateGrandWinner();
+                }
+            }
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (bgImg.complete && bgImg.naturalWidth !== 0) {
+                ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.fillStyle = '#1e293b'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            edges.forEach(e => {
+                ctx.beginPath(); ctx.strokeStyle = 'rgba(251, 191, 36, 0.4)'; ctx.lineWidth = 4;
+                ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.dest.x, e.dest.y); ctx.stroke();
+                ctx.fillStyle = '#ffffff'; ctx.font = '12px Courier New';
+                ctx.fillText(`${e.weight}km`, (e.source.x+e.dest.x)/2, (e.source.y+e.dest.y)/2);
+            });
+
+            nodes.forEach(n => {
+                ctx.beginPath(); ctx.fillStyle = n.type==='start' ? '#10b981' : (n.type==='target' ? '#ef4444' : '#3b82f6');
+                ctx.arc(n.x, n.y, 24, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
+                ctx.fillStyle = 'white'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
+                ctx.fillText(n.name, n.x, n.y - 32);
+            });
+
+            for (let key in characters) {
+                let p = characters[key];
+                if (p.img.complete && p.img.naturalWidth !== 0) {
+                    ctx.drawImage(p.img, p.x - 25, p.y - 25, 50, 50);
+                } else {
+                    ctx.beginPath(); ctx.fillStyle = p.color; ctx.arc(p.x, p.y, 15, 0, Math.PI*2); ctx.fill();
+                }
+            }
+        }
+
+        function evaluateGrandWinner() {
+            let bestKey = null;
+            let highestLoot = -1;
+
+            for (let key in characters) {
+                if (characters[key].finalScore > highestLoot) {
+                    highestLoot = characters[key].finalScore;
+                    bestKey = key;
+                }
+            }
+
+            let winner = characters[bestKey];
+            winnerLabel.innerText = `🏆 ${winner.label} 🏆`;
+            winnerReason.innerText = `Successfully routed through Dijkstra channels and packed a Max Knapsack Loot value of $${highestLoot} Gold Coins with a ${winner.bag}kg bag!`;
+            winnerModal.style.display = 'block';
+        }
+
+        function closeModal() {
+            winnerModal.style.display = 'none';
+            for (let key in characters) {
+                characters[key].x = nodes[0].x; characters[key].y = nodes[0].y;
+                characters[key].targetIdx = 0; characters[key].finalScore = 0;
+                document.getElementById(characters[key].dom).innerHTML = `${characters[key].label}: <span style="color:#9ca3af">Ready at Dock</span>`;
+            }
+        }
+
+        // 🎲 RE-ROLLING RANDOM MATHEMATICS ON CLICK BEFORE EACH MATCH
+        startBtn.addEventListener('click', () => {
+            winnerModal.style.display = 'none';
+            isRaceRunning = true;
+            
+            for (let key in characters) {
+                let p = characters[key];
+                p.x = nodes[0].x; p.y = nodes[0].y; p.targetIdx = 0;
+                p.bag = Math.floor(Math.random() * 15) + 15; // Shuffling bag weight dynamic threshold (15kg - 30kg)
+                p.speed = (Math.random() * 1.5) + 3.5;       // Shuffling speed thresholds (3.5 - 5.0)
+                p.currentPath = dijkstra(nodes[0], nodes[5]);
+                document.getElementById(p.dom).innerHTML = `${p.label}: <span style="color:#fbbf24">Sailing Fast...</span>`;
+            }
+        });
+
+        gameLoop();
+    </script>
+</body>
+</html>
