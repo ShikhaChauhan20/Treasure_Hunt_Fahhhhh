@@ -13,17 +13,15 @@ Instead of reading static console logs, users can visually track how data struct
 
 ---
 
-## Core Algorithmic Breakdown
+## Core Mechanics (DSA Under the Hood)
 
-The entire simulation relies on two foundational computer science concepts executing under the hood:
+### 1️⃣ Dijkstra’s Algorithm (Pathfinding)
+* **What it does:** Calculates the absolute shortest path from the starting dock, through various checkpoint nodes (Coral Reef, Shipwreck Bay, etc.), to Treasure Island.
+* **How it works:** It evaluates the weighted graph network dynamically, ensuring characters take the most efficient route in real time.
 
-### 1️⃣ Dijkstra’s Algorithm (Dynamic Pathfinding)
-* **The Role:** Acts as the game's navigation engine.
-* **How it works:** It evaluates the weighted graph network spanning from the starting dock (*East-Blue*) through various checkpoint nodes (*Coral Reef*, *Shipwreck Bay*, *Volcano Pass*) to *Treasure Island*. It dynamically computes the absolute shortest paths, guiding each character along the most efficient route without any pre-determined hardcoding.
-
-### 2️⃣ 0/1 Knapsack Algorithm (Combinatorial Resource Optimization)
-* **The Role:** Determines the ultimate champion at the final checkpoint.
-* **How it works:** Crossing the finish line first isn't enough. At Treasure Island, characters encounter loot combinations with varying gold values and weights. Because their backpacks have a strict weight constraint, a 0/1 Knapsack algorithm runs instantly to solve the optimization problem—calculating the maximum possible gold value they can carry. The character with the highest mathematically optimized value wins the Grand Race.
+### 2️⃣ 0/1 Knapsack Algorithm (Loot Optimization)
+* **What it does:** Determines the ultimate winner at the final checkpoint.
+* **How it works:** Characters find loot with different weights and gold values. Since backpacks have a weight limit, the 0/1 Knapsack algorithm maximizes the total gold value each character can carry. The highest mathematically optimized score wins!
 
 ---
 
